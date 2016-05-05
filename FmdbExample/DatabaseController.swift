@@ -10,18 +10,77 @@ import FMDB
 
 class DatabaseController {
 
-    private let DatabasePath = "/Documents/"
+    static let DefaultDatabaseName = "TestDB"
+
     private let db: FMDatabase!
     private let serialDispatchQueue: dispatch_queue_t!
 
     init(databaseName: String) {
-        db = FMDatabase(path: DatabasePath + databaseName + ".db")
+        let dbPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first! + "/" + databaseName + ".db"
+        let databaseExist = NSFileManager.defaultManager().fileExistsAtPath(dbPath as String)
+
+        db = FMDatabase(path: dbPath)
+
+        if db == nil {
+            print(db.lastErrorMessage())
+        }
+
         serialDispatchQueue = dispatch_queue_create(databaseName + "_dbQueue", DISPATCH_QUEUE_SERIAL)
+
+        if !databaseExist {
+            self.setupDatabase()
+        }
+    }
+
+    private func setupDatabase() {
+        guard self.open() else {
+            return
+        }
+
+        let sql_stmt = "CREATE TABLE IF NOT EXISTS WORKER (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME TEXT, AGE INTEGER, POSITION TEXT)"
+        if !self.db.executeStatements(sql_stmt) {
+            print("Error: \(self.db.lastErrorMessage())")
+        }
+
+        self.close()
+    }
+
+    func open() -> Bool {
+        let result = self.db.open()
+
+        if !result {
+            print(self.db.lastErrorMessage())
+        }
+        return result
+    }
+
+    func close() -> Bool {
+        let result = self.db.close()
+
+        if !result {
+            print(self.db.lastErrorMessage())
+        }
+
+        return result
+    }
+
+
+    func addWorker(worker: Worker, completion: Bool -> Void) {
+        runDatabaseBlockInTransaction { () in
+            do {
+                try self.db.executeUpdate("INSERT INTO WORKER (NAME, AGE, POSITION) VALUES (?,?,?)", values: [worker.name, worker.age, worker.position])
+                completion(true)
+            }
+            catch {
+                print(self.db.lastErrorMessage())
+                completion(false)
+            }
+        }
     }
 
     private func runDatabaseBlockInTransaction(block: Void -> Void) {
         dispatch_async(serialDispatchQueue) {
-            autoreleasepool({ 
+            autoreleasepool({
                 self.db.beginTransaction()
                 block()
                 self.db.commit()

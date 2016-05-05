@@ -14,6 +14,8 @@
 		C51CD8C71CDB7458001A9EF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C51CD8C61CDB7458001A9EF8 /* Assets.xcassets */; };
 		C51CD8CA1CDB7458001A9EF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C51CD8C81CDB7458001A9EF8 /* LaunchScreen.storyboard */; };
 		C51CD8D31CDB76BB001A9EF8 /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51CD8D21CDB76BB001A9EF8 /* DatabaseController.swift */; };
+		C51CD8D71CDB7DDF001A9EF8 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51CD8D51CDB7DDF001A9EF8 /* Worker.swift */; };
+		C51CD8DA1CDB81CF001A9EF8 /* EntityProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51CD8D91CDB81CF001A9EF8 /* EntityProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		C51CD8C91CDB7458001A9EF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C51CD8CB1CDB7458001A9EF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C51CD8D21CDB76BB001A9EF8 /* DatabaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
+		C51CD8D51CDB7DDF001A9EF8 /* Worker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
+		C51CD8D91CDB81CF001A9EF8 /* EntityProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,7 @@
 		C51CD8BE1CDB7458001A9EF8 /* FmdbExample */ = {
 			isa = PBXGroup;
 			children = (
+				C51CD8D41CDB7D6B001A9EF8 /* Model */,
 				C51CD8D11CDB7656001A9EF8 /* FMDB */,
 				C51CD8BF1CDB7458001A9EF8 /* AppDelegate.swift */,
 				C51CD8C11CDB7458001A9EF8 /* ViewController.swift */,
@@ -89,6 +94,15 @@
 				C51CD8D21CDB76BB001A9EF8 /* DatabaseController.swift */,
 			);
 			name = FMDB;
+			sourceTree = "<group>";
+		};
+		C51CD8D41CDB7D6B001A9EF8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C51CD8D51CDB7DDF001A9EF8 /* Worker.swift */,
+				C51CD8D91CDB81CF001A9EF8 /* EntityProtocol.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		FE59275465E65DBB328D5514 /* Frameworks */ = {
@@ -221,7 +235,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C51CD8DA1CDB81CF001A9EF8 /* EntityProtocol.swift in Sources */,
 				C51CD8C21CDB7458001A9EF8 /* ViewController.swift in Sources */,
+				C51CD8D71CDB7DDF001A9EF8 /* Worker.swift in Sources */,
 				C51CD8D31CDB76BB001A9EF8 /* DatabaseController.swift in Sources */,
 				C51CD8C01CDB7458001A9EF8 /* AppDelegate.swift in Sources */,
 			);

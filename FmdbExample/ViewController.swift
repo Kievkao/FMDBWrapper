@@ -12,7 +12,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let dbController = DatabaseController(databaseName: DatabaseController.DefaultDatabaseName)
+
+        let worker = Worker()
+        worker.name = "John"
+        worker.age = 30
+        worker.position = "Engineer"
+
+        dbController.open()
+        dbController.addWorker(worker) { (success) in
+            print("Added Worker result: \(success)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
