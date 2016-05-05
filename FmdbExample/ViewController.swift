@@ -21,8 +21,17 @@ class ViewController: UIViewController {
         worker.position = "Engineer"
 
         dbController.open()
-        dbController.addWorker(worker) { (success) in
-            print("Added Worker result: \(success)")
+//        dbController.addWorker(worker) { (success) in
+//            print("Added Worker result: \(success)")
+//        }
+
+        dbController.fetchAllWorkers { (workers) in
+            if let worker = workers.first {
+                print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
+            }
+            else {
+                print("No workers")
+            }
         }
     }
 

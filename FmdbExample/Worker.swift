@@ -9,7 +9,7 @@
 import Foundation
 
 class Worker: NSObject, EntityProtocol {
-    var age: NSNumber!
+    var age: Int!
     var name: String!
     var position: String!
 }
