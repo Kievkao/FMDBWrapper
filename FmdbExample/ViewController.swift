@@ -10,21 +10,30 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var dbController = DatabaseController(databaseName: DatabaseController.DefaultDatabaseName)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let dbController = DatabaseController(databaseName: DatabaseController.DefaultDatabaseName)
+        dbController.open()
+
+        fetchAllWorkers()
+    }
+
+    func addWorker() {
+        dbController.open()
 
         let worker = Worker()
         worker.name = "John"
         worker.age = 30
         worker.position = "Engineer"
 
-        dbController.open()
-//        dbController.addWorker(worker) { (success) in
-//            print("Added Worker result: \(success)")
-//        }
+        dbController.addWorker(worker) { (success) in
+            print("Added Worker result: \(success)")
+        }
+    }
 
+    func fetchAllWorkers() {
         dbController.fetchAllWorkers { (workers) in
             if let worker = workers.first {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
@@ -34,12 +43,5 @@ class ViewController: UIViewController {
             }
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
