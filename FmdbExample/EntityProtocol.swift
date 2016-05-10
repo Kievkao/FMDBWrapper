@@ -9,5 +9,8 @@
 import Foundation
 
 protocol EntityProtocol {
-
+    var tableName: String { get }
+    var rowsNames: String { get }
+    var rowsPattern: String { get }
+    var rowsValues: [AnyObject] { get }
 }

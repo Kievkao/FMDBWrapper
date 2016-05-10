@@ -51,10 +51,10 @@ class DatabaseController {
         return result
     }
 
-    func addWorker(worker: Worker, completion: Bool -> Void) {
+    func addEntity(entity: EntityProtocol, completion: Bool -> Void) {
         runDatabaseBlockInTransaction { () in
             do {
-                try self.db.executeUpdate("INSERT INTO WORKER (name, age, position) values (?,?,?)", values: [worker.name, worker.age, worker.position])
+                try self.db.executeUpdate("INSERT INTO \(entity.tableName) (\(entity.rowsNames)) values (\(entity.rowsPattern))", values: entity.rowsValues)
                 completion(true)
             }
             catch {

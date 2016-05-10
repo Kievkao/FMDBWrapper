@@ -18,17 +18,18 @@ class ViewController: UIViewController {
         dbController.open()
 
         fetchAllWorkers()
+        //addWorker()
     }
 
     func addWorker() {
         dbController.open()
 
         let worker = Worker()
-        worker.name = "John"
-        worker.age = 30
-        worker.position = "Engineer"
+        worker.name = "Adam"
+        worker.age = 21
+        worker.position = "QA"
 
-        dbController.addWorker(worker) { (success) in
+        dbController.addEntity(worker) { (success) in
             print("Added Worker result: \(success)")
         }
     }
