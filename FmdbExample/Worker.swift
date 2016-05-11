@@ -18,9 +18,9 @@ class Worker: NSObject, FMDBEntityProtocol {
         super.init()
     }
 
-    var rowsValues: [AnyObject] { return [name, age, position] }
+    var columnsValues: [AnyObject] { return [age, name, position] }
 
-    static func rowTypeByName(name: String) -> FMDBVariableType? {
+    static func columnTypeByName(name: String) -> FMDBVariableType? {
         switch name {
         case "age":
             return .IntType

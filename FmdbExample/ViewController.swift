@@ -26,7 +26,7 @@ class ViewController: UIViewController {
 
         let worker = Worker()
         worker.name = "Adam"
-        worker.age = 21
+        worker.age = 22
         worker.position = "QA"
 
         dbController.addEntity(worker) { (success) in

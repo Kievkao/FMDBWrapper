@@ -14,16 +14,29 @@ enum FMDBVariableType: Int {
     case DoubleType
     case StringType
     case DateType
+
+    func sqlType() -> String {
+        switch self {
+        case .IntType, .BoolType, .DateType:
+            return "INTEGER"
+
+        case .StringType:
+            return "TEXT"
+
+        case .DoubleType:
+            return "REAL"
+        }
+    }
 }
 
 protocol FMDBEntityProtocol {
     static var tableName: String { get }
-    var rowsNames: String { get }
-    var rowsPattern: String { get }
-    var rowsNamesArray: [String] { get }
+    var columnsNames: String { get }
+    var columnsPattern: String { get }
+    var columnsNamesArray: [String] { get }
 
-    var rowsValues: [AnyObject] { get }
-    static func rowTypeByName(name: String) -> FMDBVariableType?
+    var columnsValues: [AnyObject] { get }
+    static func columnTypeByName(name: String) -> FMDBVariableType?
     func setValue(value: AnyObject, key: String)
 
     init()
@@ -32,16 +45,17 @@ protocol FMDBEntityProtocol {
 extension FMDBEntityProtocol where Self: NSObject {
     static var tableName: String { return String(self) }
 
-    var rowsNamesArray: [String] {
+    var columnsNamesArray: [String] {
         return Mirror(reflecting: self).children.filter { $0.label != nil }.map { $0.label! }
     }
 
-    var rowsNames: String {
-        return self.rowsNamesArray.joinWithSeparator(",")
+    var columnsNames: String {
+        return self.columnsNamesArray.joinWithSeparator(",")
     }
 
-    var rowsPattern: String {
-        return String(byRepeatingString: "?,", count: self.rowsNamesArray.count)
+    var columnsPattern: String {
+        let pattern = String(byRepeatingString: "?,", count: self.columnsNamesArray.count)
+        return String(pattern.characters.dropLast())
     }
 
     func setValue(value: AnyObject, key: String) {

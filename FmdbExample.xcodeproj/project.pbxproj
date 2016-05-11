@@ -16,7 +16,6 @@
 		C51CD8D31CDB76BB001A9EF8 /* FMDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51CD8D21CDB76BB001A9EF8 /* FMDBController.swift */; };
 		C51CD8D71CDB7DDF001A9EF8 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51CD8D51CDB7DDF001A9EF8 /* Worker.swift */; };
 		C51CD8DA1CDB81CF001A9EF8 /* FMDBEntityProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51CD8D91CDB81CF001A9EF8 /* FMDBEntityProtocol.swift */; };
-		C53922191CE31F1000DA8F54 /* FMDBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53922181CE31F1000DA8F54 /* FMDBEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,6 @@
 		C51CD8D21CDB76BB001A9EF8 /* FMDBController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDBController.swift; sourceTree = "<group>"; };
 		C51CD8D51CDB7DDF001A9EF8 /* Worker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
 		C51CD8D91CDB81CF001A9EF8 /* FMDBEntityProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDBEntityProtocol.swift; sourceTree = "<group>"; };
-		C53922181CE31F1000DA8F54 /* FMDBEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDBEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				C51CD8D21CDB76BB001A9EF8 /* FMDBController.swift */,
-				C53922181CE31F1000DA8F54 /* FMDBEntity.swift */,
 				C51CD8D91CDB81CF001A9EF8 /* FMDBEntityProtocol.swift */,
 			);
 			name = FMDB;
@@ -241,7 +238,6 @@
 				C51CD8DA1CDB81CF001A9EF8 /* FMDBEntityProtocol.swift in Sources */,
 				C51CD8C21CDB7458001A9EF8 /* ViewController.swift in Sources */,
 				C51CD8D71CDB7DDF001A9EF8 /* Worker.swift in Sources */,
-				C53922191CE31F1000DA8F54 /* FMDBEntity.swift in Sources */,
 				C51CD8D31CDB76BB001A9EF8 /* FMDBController.swift in Sources */,
 				C51CD8C01CDB7458001A9EF8 /* AppDelegate.swift in Sources */,
 			);
