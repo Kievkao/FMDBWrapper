@@ -8,13 +8,28 @@
 
 import Foundation
 
-class Worker: NSObject, EntityProtocol {
-    var age: Int!
+class Worker: NSObject, FMDBEntityProtocol {
+    var age: Int = 0
     var name: String!
     var position: String!
 
-    var tableName: String { return "WORKER" }
-    var rowsNames: String { return "name, age, position" }
-    var rowsPattern: String { return "?,?,?" }
+    // MARK: FMDBEntityProtocol
+    override required init() {
+        super.init()
+    }
+
     var rowsValues: [AnyObject] { return [name, age, position] }
+
+    static func rowTypeByName(name: String) -> FMDBVariableType? {
+        switch name {
+        case "age":
+            return .IntType
+
+        case "name", "position":
+            return .StringType
+
+        default:
+            return nil
+        }
+    }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var dbController = DatabaseController(databaseName: DatabaseController.DefaultDatabaseName)
+    var dbController = FMDBController(databaseName: FMDBController.DefaultDatabaseName)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     }
 
     func fetchAllWorkers() {
-        dbController.fetchAllWorkers { (workers) in
+        dbController.fetchAllEntities(Worker.self) { (workers) in
             if let worker = workers.first {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
