@@ -4,25 +4,15 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>FMDB.xcscheme</key>
+		<key>FMDBWrapper.xcscheme</key>
 		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Pods-FMDBWrapper.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
+			<key>orderHint</key>
+			<integer>0</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>23CF27B2BA6AC7125EFFEDA8C5AA819F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D2792D3D5916F6DAB60C08E242A16F47</key>
+		<key>C53922241CE33CB500DA8F54</key>
 		<dict>
 			<key>primary</key>
 			<true/>
