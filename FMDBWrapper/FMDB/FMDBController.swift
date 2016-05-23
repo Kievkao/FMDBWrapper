@@ -44,10 +44,18 @@ final class FMDBController {
     }
 
     func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, completion: Array<T> -> Void) {
+        self.fetchEntities(entityClass, whereStatement: nil, completion: completion)
+    }
+
+    func fetchEntities<T: FMDBEntityProtocol>(entityClass:T.Type, whereStatement: String?, completion: Array<T> -> Void) {
         runDatabaseBlockInTransaction { () in
             do {
-                let entity = T()
-                let results:FMResultSet = try self.db.executeQuery("SELECT \(entity.columnsNames) FROM \(T.tableName)", values: nil)
+                var query = "SELECT * FROM \(T.tableName)"
+                if let _whereStatement = whereStatement {
+                    query = query + " WHERE \(_whereStatement)"
+                }
+
+                let results:FMResultSet = try self.db.executeQuery(query, values: nil)
                 var entities = [T]()
 
                 while results.next() {
@@ -82,7 +90,7 @@ final class FMDBController {
 
                     entities.append(entity)
                 }
-
+                
                 completion(entities)
             }
             catch {

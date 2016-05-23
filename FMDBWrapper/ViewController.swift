@@ -18,16 +18,17 @@ class ViewController: UIViewController {
         dbController.open()
 
         //fetchAllWorkers()
-        addWorker()
+        fetchWorkersWithFilter()
+        //addWorker()
     }
 
     func addWorker() {
         dbController.open()
 
         let worker = Worker()
-        worker.name = "Adam"
-        worker.age = 22
-        worker.position = "QA"
+        worker.name = "John"
+        worker.age = 30
+        worker.position = "Developer"
 
         dbController.addEntity(worker) { (success) in
             print("Added Worker result: \(success)")
@@ -36,6 +37,17 @@ class ViewController: UIViewController {
 
     func fetchAllWorkers() {
         dbController.fetchAllEntities(Worker.self) { (workers) in
+            if let worker = workers.first {
+                print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
+            }
+            else {
+                print("No workers")
+            }
+        }
+    }
+
+    func fetchWorkersWithFilter() {
+        dbController.fetchEntities(Worker.self, whereStatement: "age = 30") { (workers) in
             if let worker = workers.first {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
