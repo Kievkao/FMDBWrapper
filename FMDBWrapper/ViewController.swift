@@ -17,18 +17,44 @@ class ViewController: UIViewController {
 
         dbController.open()
 
-        //fetchAllWorkers()
-        fetchWorkersWithFilter()
-        //addWorker()
+//        addWorkers()
+//        fetchAllWorkers()
+//        fetchWorkersWithFilter()
     }
 
-    func addWorker() {
+    func addWorkers() {
         dbController.open()
 
-        let worker = Worker()
+        var worker = Worker()
         worker.name = "John"
         worker.age = 30
         worker.position = "Developer"
+
+        dbController.addEntity(worker) { (success) in
+            print("Added Worker result: \(success)")
+        }
+
+        worker = Worker()
+        worker.name = "Adam"
+        worker.age = 22
+        worker.position = "QA"
+
+        dbController.addEntity(worker) { (success) in
+            print("Added Worker result: \(success)")
+        }
+
+        worker = Worker()
+        worker.name = "Smith"
+        worker.age = 26
+        worker.position = "PM"
+
+        dbController.addEntity(worker) { (success) in
+            print("Added Worker result: \(success)")
+        }
+        worker = Worker()
+        worker.name = "Linda"
+        worker.age = 28
+        worker.position = "Designer"
 
         dbController.addEntity(worker) { (success) in
             print("Added Worker result: \(success)")
@@ -37,17 +63,14 @@ class ViewController: UIViewController {
 
     func fetchAllWorkers() {
         dbController.fetchAllEntities(Worker.self) { (workers) in
-            if let worker = workers.first {
+            for worker in workers {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
-            }
-            else {
-                print("No workers")
             }
         }
     }
 
     func fetchWorkersWithFilter() {
-        dbController.fetchEntities(Worker.self, whereStatement: "age = 30") { (workers) in
+        dbController.fetchEntities(Worker.self, whereStatement: "age = 30", orderBy: "age") { (workers) in
             if let worker = workers.first {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
