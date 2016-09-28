@@ -43,14 +43,14 @@ protocol FMDBEntityProtocol {
 }
 
 extension FMDBEntityProtocol where Self: NSObject {
-    static var tableName: String { return String(self) }
+    static var tableName: String { return String(describing: self) }
 
     var columnsNamesArray: [String] {
         return Mirror(reflecting: self).children.filter { $0.label != nil }.map { $0.label! }
     }
 
     var columnsNames: String {
-        return self.columnsNamesArray.joinWithSeparator(",")
+        return self.columnsNamesArray.joined(separator: ",")
     }
 
     var columnsPattern: String {
@@ -71,6 +71,6 @@ extension String {
             newString += str
         }
         
-        self.init(newString)
+        self.init(newString)!
     }
 }

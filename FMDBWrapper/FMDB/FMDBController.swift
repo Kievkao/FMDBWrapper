@@ -11,11 +11,12 @@ import FMDB
 final class FMDBController {
 
     private let db: FMDatabase!
-    private let serialDispatchQueue: dispatch_queue_t!
+    private let serialDispatchQueue: DispatchQueue!
 
+    // TODO: optional init
     init<T: FMDBEntityProtocol>(databaseName: String, entitiesTypes: [T.Type]?) {
-        let dbPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first! + "/" + databaseName + ".db"
-        let databaseExist = NSFileManager.defaultManager().fileExistsAtPath(dbPath as String)
+        let dbPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + databaseName + ".db"
+        let databaseExist = FileManager.default.fileExists(atPath: dbPath as String)
 
         db = FMDatabase(path: dbPath)
 
@@ -23,14 +24,14 @@ final class FMDBController {
             print(db.lastErrorMessage())
         }
 
-        serialDispatchQueue = dispatch_queue_create(databaseName + "_dbQueue", DISPATCH_QUEUE_SERIAL)
+        serialDispatchQueue =  DispatchQueue(label: databaseName + "_dbQueue")
 
         if !databaseExist && entitiesTypes != nil {
-            self.setupDatabase(entitiesTypes!)
+            self.setupDatabase(entitiesTypes: entitiesTypes!)
         }
     }
 
-    func addEntity<T: FMDBEntityProtocol>(entity: T, completion: (Bool -> Void)?) {
+    func addEntity<T: FMDBEntityProtocol>(entity: T, completion: ((Bool) -> Void)?) {
         runDatabaseBlockInTransaction { () in
             do {
                 try self.db.executeUpdate("INSERT INTO \(T.tableName) (\(entity.columnsNames)) values (\(entity.columnsPattern))", values: entity.columnsValues)
@@ -43,15 +44,15 @@ final class FMDBController {
         }
     }
 
-    func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, completion: Array<T> -> Void) {
-        self.fetchEntities(entityClass, whereStatement: nil, orderBy: nil, completion: completion)
+    func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, completion: @escaping ((Array<T>) -> Void)) {
+        self.fetchEntities(entityClass: entityClass, whereStatement: nil, orderBy: nil, completion: completion)
     }
 
-    func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, orderBy:String, completion: Array<T> -> Void) {
-        self.fetchEntities(entityClass, whereStatement: nil, orderBy: orderBy, completion: completion)
+    func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, orderBy:String, completion: @escaping (Array<T>) -> Void) {
+        self.fetchEntities(entityClass: entityClass, whereStatement: nil, orderBy: orderBy, completion: completion)
     }
 
-    func fetchEntities<T: FMDBEntityProtocol>(entityClass:T.Type, whereStatement: String?, orderBy:String?, completion: Array<T> -> Void) {
+    func fetchEntities<T: FMDBEntityProtocol>(entityClass:T.Type, whereStatement: String?, orderBy:String?, completion: @escaping (Array<T>) -> Void) {
         runDatabaseBlockInTransaction { () in
             do {
                 var query = "SELECT * FROM \(T.tableName)"
@@ -70,7 +71,7 @@ final class FMDBController {
                     let entity = T()
 
                     for columnName in entity.columnsNamesArray {
-                        guard let columnType = T.columnTypeByName(columnName) else {
+                        guard let columnType = T.columnTypeByName(name: columnName) else {
                             continue
                         }
 
@@ -78,22 +79,22 @@ final class FMDBController {
 
                         switch columnType {
                         case .IntType:
-                            value = results.longForColumn(columnName)
+                            value = results.long(forColumn: columnName) as AnyObject!
 
                         case .BoolType:
-                            value = results.boolForColumn(columnName)
+                            value = results.bool(forColumn: columnName) as AnyObject!
 
                         case .DoubleType:
-                            value = results.doubleForColumn(columnName)
+                            value = results.double(forColumn: columnName) as AnyObject!
 
                         case .StringType:
-                            value = results.stringForColumn(columnName)
+                            value = results.string(forColumn: columnName) as AnyObject!
 
                         case .DateType:
-                            value = results.dateForColumn(columnName)
+                            value = results.date(forColumn: columnName) as AnyObject!
                         }
 
-                        entity.setValue(value, key: columnName)
+                        entity.setValue(value: value, key: columnName)
                     }
 
                     entities.append(entity)
@@ -108,7 +109,7 @@ final class FMDBController {
         }
     }
 
-    func open() -> Bool {
+    @discardableResult func open() -> Bool {
         let result = self.db.open()
 
         if !result {
@@ -117,7 +118,7 @@ final class FMDBController {
         return result
     }
 
-    func close() -> Bool {
+    @discardableResult func close() -> Bool {
         let result = self.db.close()
 
         if !result {
@@ -127,9 +128,9 @@ final class FMDBController {
         return result
     }
 
-    private func runDatabaseBlockInTransaction(block: Void -> Void) {
-        dispatch_async(serialDispatchQueue) {
-            autoreleasepool({
+    private func runDatabaseBlockInTransaction(block: @escaping (Void) -> Void) {
+        serialDispatchQueue.async() {
+            autoreleasepool(invoking: {
                 self.db.beginTransaction()
                 block()
                 self.db.commit()
@@ -146,8 +147,8 @@ final class FMDBController {
             let columnsNames = T().columnsNamesArray
             var columnsStr = ""
 
-            for (index, row) in columnsNames.enumerate() {
-                columnsStr = columnsStr + row + " \(T.columnTypeByName(row)!.sqlType())"
+            for (index, row) in columnsNames.enumerated() {
+                columnsStr = columnsStr + row + " \(T.columnTypeByName(name: row)!.sqlType())"
                 if index < columnsNames.count - 1 {
                     columnsStr = columnsStr + ", "
                 }
@@ -159,7 +160,5 @@ final class FMDBController {
                 print("Error: \(self.db.lastErrorMessage())")
             }
         }
-
-        self.close()
     }
 }

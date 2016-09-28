@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         worker.age = 30
         worker.position = "Developer"
 
-        dbController.addEntity(worker) { (success) in
+        dbController.addEntity(entity: worker) { (success) in
             print("Added Worker result: \(success)")
         }
 
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         worker.age = 22
         worker.position = "QA"
 
-        dbController.addEntity(worker) { (success) in
+        dbController.addEntity(entity: worker) { (success) in
             print("Added Worker result: \(success)")
         }
 
@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         worker.age = 26
         worker.position = "PM"
 
-        dbController.addEntity(worker) { (success) in
+        dbController.addEntity(entity: worker) { (success) in
             print("Added Worker result: \(success)")
         }
         worker = Worker()
@@ -56,13 +56,13 @@ class ViewController: UIViewController {
         worker.age = 28
         worker.position = "Designer"
 
-        dbController.addEntity(worker) { (success) in
+        dbController.addEntity(entity: worker) { (success) in
             print("Added Worker result: \(success)")
         }
     }
 
     func fetchAllWorkers() {
-        dbController.fetchAllEntities(Worker.self) { (workers) in
+        dbController.fetchAllEntities(entityClass: Worker.self) { (workers) in
             for worker in workers {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
     }
 
     func fetchWorkersWithFilter() {
-        dbController.fetchEntities(Worker.self, whereStatement: "age = 30", orderBy: "age") { (workers) in
+        dbController.fetchEntities(entityClass: Worker.self, whereStatement: "age = 30", orderBy: "age") { (workers) in
             if let worker = workers.first {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
