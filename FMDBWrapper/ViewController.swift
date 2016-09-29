@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var dbController = FMDBController(databaseName: "TestDB", entitiesTypes: [Worker.self])
+    var dbController = FMDBController(databaseName: "TestDB", entitiesTypes: [Worker.self, Furniture.self])
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +18,9 @@ class ViewController: UIViewController {
         dbController.open()
 
 //        addWorkers()
+//        addFurniture()
 //        fetchAllWorkers()
+//        fetchAllFurniture()
 //        fetchWorkersWithFilter()
     }
     
@@ -58,6 +60,35 @@ class ViewController: UIViewController {
 
         dbController.addEntity(entity: worker) { (success) in
             print("Added Worker result: \(success)")
+        }
+    }
+    
+    func addFurniture() {
+        dbController.open()
+        
+        var furniture = Furniture()
+        furniture.type = Furniture.FurnitureType.Table
+        furniture.inventoryNumber = "AB1234"
+        
+        dbController.addEntity(entity: furniture) { (success) in
+            print("Added Furniture result: \(success)")
+        }
+        
+        furniture = Furniture()
+        furniture.type = Furniture.FurnitureType.Chair
+        furniture.inventoryNumber = "WX987654TH"
+        
+        dbController.addEntity(entity: furniture) { (success) in
+            print("Added Furniture result: \(success)")
+        }
+
+    }
+    
+    func fetchAllFurniture() {
+        dbController.fetchAllEntities(entityClass: Furniture.self) { (furnitures) in
+            for case let furniture as Furniture in furnitures {
+                print("Fetched Furniture: type: \(furniture.type), number: \(furniture.inventoryNumber)")
+            }
         }
     }
 

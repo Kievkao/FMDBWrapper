@@ -34,7 +34,7 @@ final class FMDBController {
     func addEntity(entity: FMDBEntity, completion: ((Bool) -> Void)?) {
         runDatabaseBlockInTransaction { () in
             do {
-                try self.db.executeUpdate("INSERT INTO \(FMDBEntity.tableName) (\(entity.columnsNames)) values (\(entity.columnsPattern))", values: entity.columnsValues())
+                try self.db.executeUpdate("INSERT INTO \(type(of: entity).tableName) (\(entity.columnsNames)) values (\(entity.columnsPattern))", values: entity.columnsValues())
                 completion?(true)
             }
             catch {
@@ -55,7 +55,7 @@ final class FMDBController {
     func fetchEntities(entityClass:FMDBEntity.Type, whereStatement: String?, orderBy:String?, completion: @escaping (Array<FMDBEntity>) -> Void) {
         runDatabaseBlockInTransaction { () in
             do {
-                var query = "SELECT * FROM \(FMDBEntity.tableName)"
+                var query = "SELECT * FROM \(entityClass.tableName)"
                 if let _whereStatement = whereStatement {
                     query = query + " WHERE \(_whereStatement)"
                 }
@@ -94,7 +94,7 @@ final class FMDBController {
                             value = results.date(forColumn: columnName) as AnyObject!
                         }
 
-                        entity.setValue(value: value, key: columnName)
+                        entity.setValue(value, forKey: columnName)
                     }
 
                     entities.append(entity)
@@ -144,9 +144,9 @@ final class FMDBController {
         }
 
         for entityType in entitiesTypes {
-            let columnsNames = FMDBEntity().columnsNamesArray
-            var columnsStr = ""
             let tmpEntity = entityType.init()
+            let columnsNames = tmpEntity.columnsNamesArray
+            var columnsStr = ""
 
             for (index, row) in columnsNames.enumerated() {
                 columnsStr = columnsStr + row + " \(tmpEntity.columnTypeByName(name: row)!.sqlType())"

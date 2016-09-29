@@ -32,9 +32,7 @@ enum FMDBVariableType: Int {
 class FMDBEntity: NSObject {
     static var tableName: String { return String(describing: self) }
     
-    required override init() {
-        
-    }
+    required override init() { }
     
     var columnsNamesArray: [String] {
         return Mirror(reflecting: self).children.filter { $0.label != nil }.map { $0.label! }
@@ -45,20 +43,16 @@ class FMDBEntity: NSObject {
         return String(pattern.characters.dropLast())
     }
     
-    func columnsValues() -> [AnyObject] {
-        return []
+    var columnsNames: String {
+        return self.columnsNamesArray.joined(separator: ",")
     }
     
-    func setValue(value: AnyObject, key: String) {
-        self.setValue(value, forKey: key)
+    func columnsValues() -> [AnyObject] {
+        fatalError("Must be implemented in subclasses")
     }
     
     func columnTypeByName(name: String) -> FMDBVariableType? {
-        return nil
-    }
-    
-    var columnsNames: String {
-        return self.columnsNamesArray.joined(separator: ",")
+        fatalError("Must be implemented in subclasses")
     }
 }
 
