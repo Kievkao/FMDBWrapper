@@ -14,8 +14,9 @@
 		C53922301CE33CB500DA8F54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C539222F1CE33CB500DA8F54 /* Assets.xcassets */; };
 		C53922331CE33CB500DA8F54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C53922311CE33CB500DA8F54 /* LaunchScreen.storyboard */; };
 		C539223F1CE33CC700DA8F54 /* FMDBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C539223B1CE33CC700DA8F54 /* FMDBController.swift */; };
-		C53922401CE33CC700DA8F54 /* FMDBEntityProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C539223C1CE33CC700DA8F54 /* FMDBEntityProtocol.swift */; };
+		C53922401CE33CC700DA8F54 /* FMDBEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C539223C1CE33CC700DA8F54 /* FMDBEntity.swift */; };
 		C53922411CE33CC700DA8F54 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C539223E1CE33CC700DA8F54 /* Worker.swift */; };
+		E52241AE1D9BF0A200970653 /* Furniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52241AD1D9BF0A200970653 /* Furniture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,9 +30,10 @@
 		C53922321CE33CB500DA8F54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C53922341CE33CB500DA8F54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C539223B1CE33CC700DA8F54 /* FMDBController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDBController.swift; sourceTree = "<group>"; };
-		C539223C1CE33CC700DA8F54 /* FMDBEntityProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDBEntityProtocol.swift; sourceTree = "<group>"; };
+		C539223C1CE33CC700DA8F54 /* FMDBEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMDBEntity.swift; sourceTree = "<group>"; };
 		C539223E1CE33CC700DA8F54 /* Worker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
 		DE691EF5999F4FAB7DB3CFBD /* Pods_FMDBWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FMDBWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E52241AD1D9BF0A200970653 /* Furniture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Furniture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				C539223B1CE33CC700DA8F54 /* FMDBController.swift */,
-				C539223C1CE33CC700DA8F54 /* FMDBEntityProtocol.swift */,
+				C539223C1CE33CC700DA8F54 /* FMDBEntity.swift */,
 			);
 			path = FMDB;
 			sourceTree = "<group>";
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				C539223E1CE33CC700DA8F54 /* Worker.swift */,
+				E52241AD1D9BF0A200970653 /* Furniture.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -240,7 +243,8 @@
 				C539223F1CE33CC700DA8F54 /* FMDBController.swift in Sources */,
 				C539222B1CE33CB500DA8F54 /* ViewController.swift in Sources */,
 				C53922291CE33CB500DA8F54 /* AppDelegate.swift in Sources */,
-				C53922401CE33CC700DA8F54 /* FMDBEntityProtocol.swift in Sources */,
+				E52241AE1D9BF0A200970653 /* Furniture.swift in Sources */,
+				C53922401CE33CC700DA8F54 /* FMDBEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

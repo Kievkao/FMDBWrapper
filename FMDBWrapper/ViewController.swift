@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 //        fetchAllWorkers()
 //        fetchWorkersWithFilter()
     }
-
+    
     func addWorkers() {
         dbController.open()
 
@@ -63,7 +63,7 @@ class ViewController: UIViewController {
 
     func fetchAllWorkers() {
         dbController.fetchAllEntities(entityClass: Worker.self) { (workers) in
-            for worker in workers {
+            for case let worker as Worker in workers {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
         }
@@ -71,7 +71,7 @@ class ViewController: UIViewController {
 
     func fetchWorkersWithFilter() {
         dbController.fetchEntities(entityClass: Worker.self, whereStatement: "age = 30", orderBy: "age") { (workers) in
-            if let worker = workers.first {
+            if case let worker as Worker = workers.first {
                 print("Fetched Worker: \(worker.name), \(worker.age) years, position: \(worker.position)")
             }
             else {

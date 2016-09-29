@@ -14,7 +14,7 @@ final class FMDBController {
     private let serialDispatchQueue: DispatchQueue!
 
     // TODO: optional init
-    init<T: FMDBEntityProtocol>(databaseName: String, entitiesTypes: [T.Type]?) {
+    init(databaseName: String, entitiesTypes: [FMDBEntity.Type]?) {
         let dbPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + databaseName + ".db"
         let databaseExist = FileManager.default.fileExists(atPath: dbPath as String)
 
@@ -31,10 +31,10 @@ final class FMDBController {
         }
     }
 
-    func addEntity<T: FMDBEntityProtocol>(entity: T, completion: ((Bool) -> Void)?) {
+    func addEntity(entity: FMDBEntity, completion: ((Bool) -> Void)?) {
         runDatabaseBlockInTransaction { () in
             do {
-                try self.db.executeUpdate("INSERT INTO \(T.tableName) (\(entity.columnsNames)) values (\(entity.columnsPattern))", values: entity.columnsValues)
+                try self.db.executeUpdate("INSERT INTO \(FMDBEntity.tableName) (\(entity.columnsNames)) values (\(entity.columnsPattern))", values: entity.columnsValues())
                 completion?(true)
             }
             catch {
@@ -44,18 +44,18 @@ final class FMDBController {
         }
     }
 
-    func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, completion: @escaping ((Array<T>) -> Void)) {
+    func fetchAllEntities(entityClass:FMDBEntity.Type, completion: @escaping ((Array<FMDBEntity>) -> Void)) {
         self.fetchEntities(entityClass: entityClass, whereStatement: nil, orderBy: nil, completion: completion)
     }
 
-    func fetchAllEntities<T: FMDBEntityProtocol>(entityClass:T.Type, orderBy:String, completion: @escaping (Array<T>) -> Void) {
+    func fetchAllEntities(entityClass:FMDBEntity.Type, orderBy:String, completion: @escaping (Array<FMDBEntity>) -> Void) {
         self.fetchEntities(entityClass: entityClass, whereStatement: nil, orderBy: orderBy, completion: completion)
     }
 
-    func fetchEntities<T: FMDBEntityProtocol>(entityClass:T.Type, whereStatement: String?, orderBy:String?, completion: @escaping (Array<T>) -> Void) {
+    func fetchEntities(entityClass:FMDBEntity.Type, whereStatement: String?, orderBy:String?, completion: @escaping (Array<FMDBEntity>) -> Void) {
         runDatabaseBlockInTransaction { () in
             do {
-                var query = "SELECT * FROM \(T.tableName)"
+                var query = "SELECT * FROM \(FMDBEntity.tableName)"
                 if let _whereStatement = whereStatement {
                     query = query + " WHERE \(_whereStatement)"
                 }
@@ -65,13 +65,13 @@ final class FMDBController {
                 }
 
                 let results:FMResultSet = try self.db.executeQuery(query, values: nil)
-                var entities = [T]()
+                var entities = [FMDBEntity]()
 
                 while results.next() {
-                    let entity = T()
+                    let entity = entityClass.init()
 
                     for columnName in entity.columnsNamesArray {
-                        guard let columnType = T.columnTypeByName(name: columnName) else {
+                        guard let columnType = entity.columnTypeByName(name: columnName) else {
                             continue
                         }
 
@@ -138,17 +138,18 @@ final class FMDBController {
         }
     }
 
-    private func setupDatabase<T: FMDBEntityProtocol>(entitiesTypes: [T.Type]) {
+    private func setupDatabase(entitiesTypes: [FMDBEntity.Type]) {
         guard self.open() else {
             return
         }
 
         for entityType in entitiesTypes {
-            let columnsNames = T().columnsNamesArray
+            let columnsNames = FMDBEntity().columnsNamesArray
             var columnsStr = ""
+            let tmpEntity = entityType.init()
 
             for (index, row) in columnsNames.enumerated() {
-                columnsStr = columnsStr + row + " \(T.columnTypeByName(name: row)!.sqlType())"
+                columnsStr = columnsStr + row + " \(tmpEntity.columnTypeByName(name: row)!.sqlType())"
                 if index < columnsNames.count - 1 {
                     columnsStr = columnsStr + ", "
                 }

@@ -8,19 +8,16 @@
 
 import Foundation
 
-class Worker: NSObject, FMDBEntityProtocol {
+class Worker: FMDBEntity {
     var age: Int = 0
     var name: String!
     var position: String!
 
-    // MARK: FMDBEntityProtocol
-    override required init() {
-        super.init()
+    override func columnsValues() -> [AnyObject] {
+        return [age as AnyObject, name as AnyObject, position as AnyObject]
     }
 
-    var columnsValues: [AnyObject] { return [age as AnyObject, name as AnyObject, position as AnyObject] }
-
-    static func columnTypeByName(name: String) -> FMDBVariableType? {
+    override func columnTypeByName(name: String) -> FMDBVariableType? {
         switch name {
         case "age":
             return .IntType

@@ -1,5 +1,5 @@
 //
-//  FMDBEntityProtocol.swift
+//  FMDBEntity.swift
 //  FmdbExample
 //
 //  Created by Andrii Kravchenko on 5/5/16.
@@ -29,37 +29,36 @@ enum FMDBVariableType: Int {
     }
 }
 
-protocol FMDBEntityProtocol {
-    static var tableName: String { get }
-    var columnsNames: String { get }
-    var columnsPattern: String { get }
-    var columnsNamesArray: [String] { get }
-
-    var columnsValues: [AnyObject] { get }
-    static func columnTypeByName(name: String) -> FMDBVariableType?
-    func setValue(value: AnyObject, key: String)
-
-    init()
-}
-
-extension FMDBEntityProtocol where Self: NSObject {
+class FMDBEntity: NSObject {
     static var tableName: String { return String(describing: self) }
-
+    
+    required override init() {
+        
+    }
+    
     var columnsNamesArray: [String] {
         return Mirror(reflecting: self).children.filter { $0.label != nil }.map { $0.label! }
     }
-
-    var columnsNames: String {
-        return self.columnsNamesArray.joined(separator: ",")
-    }
-
+    
     var columnsPattern: String {
         let pattern = String(byRepeatingString: "?,", count: self.columnsNamesArray.count)
         return String(pattern.characters.dropLast())
     }
-
+    
+    func columnsValues() -> [AnyObject] {
+        return []
+    }
+    
     func setValue(value: AnyObject, key: String) {
         self.setValue(value, forKey: key)
+    }
+    
+    func columnTypeByName(name: String) -> FMDBVariableType? {
+        return nil
+    }
+    
+    var columnsNames: String {
+        return self.columnsNamesArray.joined(separator: ",")
     }
 }
 
