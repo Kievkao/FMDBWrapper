@@ -17,10 +17,10 @@ class ViewController: UIViewController {
 
         dbController.open()
 
-//        addWorkers()
-//        addFurniture()
-//        fetchAllWorkers()
-//        fetchAllFurniture()
+        addWorkers()
+        addFurniture()
+        fetchAllWorkers()
+        fetchAllFurniture()
 //        fetchWorkersWithFilter()
     }
     
@@ -67,16 +67,16 @@ class ViewController: UIViewController {
         dbController.open()
         
         var furniture = Furniture()
-        furniture.type = Furniture.FurnitureType.Table
-        furniture.inventoryNumber = "AB1234"
+        furniture.type = "Table"
+        furniture.inventoryNumber = 15283
         
         dbController.addEntity(entity: furniture) { (success) in
             print("Added Furniture result: \(success)")
         }
         
         furniture = Furniture()
-        furniture.type = Furniture.FurnitureType.Chair
-        furniture.inventoryNumber = "WX987654TH"
+        furniture.type = "Chair"
+        furniture.inventoryNumber = 683
         
         dbController.addEntity(entity: furniture) { (success) in
             print("Added Furniture result: \(success)")

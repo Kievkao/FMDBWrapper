@@ -9,25 +9,21 @@
 import Foundation
 
 class Furniture: FMDBEntity {
-    enum FurnitureType: Int {
-        case Table
-        case Chair
-    }
 
-    var type: FurnitureType!
-    var inventoryNumber: String!
+    var type: String!
+    var inventoryNumber: Int = 0
     
     override func columnsValues() -> [AnyObject] {
-        return [type.rawValue as AnyObject, inventoryNumber as AnyObject]
+        return [type as AnyObject, inventoryNumber as AnyObject]
     }
     
     override func columnTypeByName(name: String) -> FMDBVariableType? {
         switch name {
         case "type":
-            return .IntType
+            return .StringType
             
         case "inventoryNumber":
-            return .StringType
+            return .IntType
             
         default:
             return nil
